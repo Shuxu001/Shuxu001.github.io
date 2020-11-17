@@ -1,0 +1,200 @@
+import requests
+url = "https://www.baidu.com"
+
+print(response)
+q_data={}   # 提供参数
+
+myheaders = {"User-Agent":"",
+    "Referer":"",        
+    "Cookie":"",
+    }
+# 还可带些header的参数，为了模拟浏览器
+# 处理cookie相关的请求，也可用另起一个字典在get里让cookies=它
+
+response = requests.get(url,headers=myheaders)
+# response = requests.post(url,data=q_data,headers=myheaders)
+
+
+
+# 获取网页源码的方式，两个方法
+response.content    # 中文是/x的二进制码
+response.content.decode("gbk") # 解码
+response.encoding = 'utf-8'
+response.text # 得到html内容
+response.request.url  # 放松请求的url地址
+response.url    # response响应的url地址
+response.request.headers # 请求的headers
+response.headers # 响应的headers
+
+# 超时参数，时间>timeout没响应时会报错
+request.get(url,headers=myheaders,timeout=3)
+# retrying模块，用来模拟刷新
+from retrying import retry
+@retry(stop_max_attempt_number=3)
+def fun():
+    print('this is fun')
+    raise ValueError('this is error')
+# 一共运行3次（出错的话），期间成功就继续运行，失败3次才停止
+
+### 请求url地址的方法
+import requests
+from retrying import retry
+myheaders = {}
+
+@retry(stop_max_attempt_number=3)
+def _parse_url(url):
+    print('执行')
+    request = requests.get(url,headers=myheaders,timeout=5)
+    return response.content.decode()
+    
+def parse_url(url):
+    try:
+        html_str = _parse_url(url)
+    except:
+        html_str = None
+    return  html_str
+    
+if __name__ == '__main__':
+    url = "https://www.baidu.com"
+    if parse_url(url):
+        print('成功')
+    else:
+        print('失败')
+
+# 关于cookie的另一个方法：用session()类
+# session类的post请求可以用账密得到cookie并保存下来
+import requests
+mysession = requests.session()
+myheaders = {}
+post_url = "" # 输入账密的url地址
+post_data = {'账号':"","password":""}
+mysession.post(post_url,data=post_data,headers=myheaders,)
+
+url = "" # 要请求的url地址
+response  = mysession.get(url,headers=myheaders)
+
+#########################################
+### json ################################
+# json是一个数据交换格式，看起来像python类型的字符串
+# 返回json的方式：浏览器用手机版（桌面版一般是html）
+import json
+html_str = response.content.decode() # json字符串
+dict_ret = json.loads(html_str) # 变成python类型
+dict_str = json.dumps(dict_ret,ensure_ascii=False,indent=2)
+# 把python类型转json字符串,ensure_ascii让中文不用ascii编码，indent让换行后缩进
+
+
+#################################################
+#################################################
+
+html字符串，有两种解析方式：
+1. 用lxml的etree.HTML，变成可用xpath语法定位的lxml.etree._Element类
+2. 用bs4的BeautifulSoup，变成可用find&正则查找的bs4.element.Tag类
+
+### xpath和lxml ##################################
+# 用/按顺序，//任意节点开始，@跟标签属性有关(筛选[]或取值)，/text()获取文本
+# 模块：lxml
+from lxml import etree
+element = etree.HTML("html字符串") # 输入的是requests.get()到的
+element.xpath("xpath语法")   #定位
+
+### bs4 ##################################
+from bs4 import BeautifulSoup
+Tag对象：带头尾的标签<title>xxx</title> 
+BeautifulSoup对象：整个html，也可当作Tag对象；
+-用法：soup=BeautifulSoup(html,'html.parser')，html是一整个网页；
+-然后可以soup.html.head.title或直接soup.title往下定位，全程都是首个；
+获取标签名称：Tag1.name，得到如 'title'
+获取标签属性：Tag1.attrs返回一字典，键为属性名，值为含属性内容的列表;
+-可Tag1.attrs['href']或Tag1.get('href')，得['url'];写入用前者
+
+soup.find_all('p')，返回列表，项是整个标签(带着<p></p>和内容，Tag类)
+-获取指定属性的标签：soup.find_all('p',class_='c1')，项为Tag类的列表，其它属性同，注意下划线_，但 指定内容用text不下划线
+-获取所有指定的内容：soup.find_all(text='p1')，所有子标签的满足条件的文本，返回只有内容(字符串)的列表
+-获取指定标签的内容：soup.find('p',class_='c1').get_text()，限第一个，find返回的是Tag类，最后得到一个字符串
+
+
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********    正则表达式    ******************************************************
+
+
+.	匹配任意字符（换行符除外）
+^pat	匹配开始位置，多行模式re.M下匹配行首
+pat$	匹配结束位置，多行模式re.M下匹配行尾
+？	前面的东西0/1次
++	前面的东西1/多次
+*	前面的东西0/1/多次
+{m,n}	前面的东西m~n次
+\\或r'\'	转义.^$()[]*+?\{}|
+[abc]	字符集，匹配其中任意一个，可[a-zA-Z0-9]
+[^abc]	非a、b、c的任意一个字符
+	-在[]中特殊字符可不转义，但要无误解，如找^不能首位
+a|b	a或b
+\A...	匹配开始位置，忽略多行模式
+...\Z	匹配结束位置，忽略多行模式
+\b	匹配位于单词首位的空字符串，等价于除字母数字汉字外
+\B	匹配不位于单词开始或结束位置的空字符串
+\d	匹配一个数字，等价于[0-9]
+\D	匹配一个非数字，等价于[^0-9]
+\s	匹配任意空白字符，等价于[ \t\n\r\f\v]
+\S	匹配任意非空白字符，等价于[^ \t\n\r\f\v]
+\w	匹配数字字母下划线中任意一个字符，等价于[0-9a-zA-Z_]
+\W	匹配非数字字母下划线中任意一个，等价于[^0-9a-zA-Z_]
+\数字	如\1\2\3\4，在正则式中调用group(数)的结果(匹配一样的东西)
+	-用于html：r'<([a-z]+)>.*</\1>会用前面找到的东西替代\1
+(?Limsux)	多模式修正符，放在正则式字符串开头，imsux写则选中模式
+(?:...)	取消 模式单元 的存储功能，即group方法，用于组内开头
+(?P<a>...)	把找到的东西收成字典，这个字典是result.groupdict()
+	-取值：可用result['a']或result.groupdict()['a']
+	-替代模式索引\1\2\3，改用r'<(?P<xxx>[a-z]+)>.*<(?P=xxx)>'
+(?#xxx)	注释，xxx是注释内容不参与解析，放哪儿都行
+(?=)	正向先行断言：右边有yyy的xxx	r'xxx(?=yyy)' 
+(?!)	负向先行断言：右边无yyy的xxx	r'xxx(?!yyy)' 
+(?<=)	正向后行断言：左边有yyy的xxx	r'(?<=yyy)xxx' 
+(?<!)	负向后行断言：左边无yyy的xxx	r'(?<!yyy)xxx' 
+	-正=有，先=右；零宽断言中yyy的宽度要固定，不可+*?{m,n}
+(?(index/name)Y|N)	模式单元index/name存在用正则式Y，不存在用正则式N
+	-上面中，index不用反斜杠直接数字即可
+
+re.A	ASCII模式，汉字不是\w，而是\W
+re.U	Unicode模式，汉字是\w，默认的
+re.M	多行模式
+re.I	忽略大小写区别
+re.S	小数点 . 可以匹配换行符\n
+re.X	忽略正则式中的空格和注释
+
+
+
+
+re的函数：以下pat是正则表达式的字符串，str是普通字符串
+compile(pat)：将pat转换为“模式对象Pattern类”
+-Pattern类可以给match和search用，或者在其它非re函数地方用来匹配
+-也可Pattern.match(str,a,b)，ab是str被查的首尾位；亦search和findall
+match(pat,str,mode)：从str开头匹配，成功则返回一个"匹配对象"，失败则None
+search(pat,str,mode)：在str中查找pat，成功则返回第一个，失败None
+split(pat,str,maxsplit)：根据pat来分割字符串，若用(pat)则保留分割点内容
+findall(pat,str)：返回1个列表，包含字符串中与正则式匹配的子串
+finditer(pat,str)：返回1个迭代器，同上
+sub(pat,repl,str,count=0)：把str中匹配到的都替换为repl，count表次数，0为全部
+-repl可以是一个函数名(不写()括号)，此时为对匹配到的东西的处理。
+escape(str)：对字符串中所有正则表达式的特殊字符进行转义
+
+匹配对象：上述查找和匹配函数在找到时返回的东西（MatchObject对象），具体的结果需要用匹配对象的方法来得到。
+编组：匹配对象中包含的信息，表示哪些部分匹配，用0,1,2...99，看(的顺序
+re的方法：下面x可选，不填默认为0即整体
+group(x)：返回与第x编组匹配的子串，groups()等价于(g(1),g(2),g(3)...)
+start(x)：返回与第x编组匹配的子串的起始位置
+end(x)：返回与第x编组匹配的子串的终止位置(实际序号+1)
+span(x)：返回与第x编组匹配的子串的起始和终止位置
+
+替换中的组号和函数：
+用于re.sub(正则式,替换成啥,被替换者)，在"替换成啥"中类似\\x(或r'\x')的转义序列会被替换成匹配到的结果的第x组。文中例子的正则式是r'\*([^\*]+)\*'，被搜索的到是'*asd*'，所以\1表示的组1就是asd字符串，它将被代入“替换成啥”中去。
+
+贪婪和非贪婪模式：重复运算符(+,*,?等)默认是贪婪的，如上面的正则在*a*b*c*中，将匹配从第1个到第4个*；破解方式：在重复运算符后面再加一个?，即成+?这样就是非贪婪的了，即匹配到2个，一个是*a*，另一个是*c*。
+
+
+
+
+

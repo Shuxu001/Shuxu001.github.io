@@ -1,0 +1,160 @@
+html是超文本标记语言；
+<!DOCTYPE html>声明位html5文档；
+<html></html>根元素；
+
+******head*******************************
+<head></head>
+    <meta charset="utf-8">定义元数据：编码格式；也有其它；
+    <title>网页标题</title>；
+    <base href="url" target="_top">定义全文的默认url(相对路径)和默认打开方式，也可加入其它属性；
+    <link rel="shortcut icon" href="图url">标签页logo
+         rel是当前文档与被链接文档的关系（即导入的url是啥）
+	icon也是图标logo
+	search搜索工具
+	stylesheet样式表，配合type=""
+    <style>文</style>看后面；
+
+******主体******************************
+<body></bpdy>可见内容；
+<h1></h1>标题1~6，前后自动空行，对应字号6~1；
+<p></p>段落，自动换行，默认3号字；
+<font size="1~6">文本</font>自定义字号；
+<b></b>加粗，外观同<strong>加重语气；
+<i></i>斜体，外观同<em>着重；
+<sub></sub>下标；
+<sup></sup>上标；
+<big></big>放大字；
+<small></small>小号字；
+<del></del>删除线；
+<ins></ins>下划线；
+<hr/>画一条水平线；
+<br/>换行，是“空元素”无关闭标签，不建议用<br>；
+<abbr title="xxx">yyy</abbr>鼠标移到yyy会提示xxx；
+<pre></pre>预格式文本(输入带空格和空行进行控制)；
+<!-- 注释内容 -->注释不会显示出来；
+<nav>导航</nav>
+
+********链接***********************************
+<a href="链接" 属性>文字</a> 点文字跳转到链接，可加属性
+    href=Hypertext Reference缩写，超文本引用；
+    属性target="_blank"新窗口打开，"_self"当前窗口默认；
+    属性rel="noopener noreferrer"不打开其它网站，建议加；
+    属性id="xx"创建书签，像word超链接，在href中#xx跳转；
+    发邮件url用"mailto:someone@example.com"；
+    属性style="x"
+********区块****************************************
+区块元素：<h1><p><ul><table>自动换行；
+内联元素：<b><td><a><img>不换行继续写；
+<div></div>把内部元素整合成一个块级元素；
+    属性align="left/right/center/justify"控制对齐方式；
+    属性float="none/left/right"：
+       详: 浮动块贴着包含框的向左/右浮动直到撞到前个浮动块/边框；
+            包含框上沿是上一个普通块的下边沿。普通块看不到浮动块；
+<span></span>把内部元素整合成一个内联元素；
+
+********列表****************************************
+<ul>无序列表</ul>；<ol>有序列表</ol>；<li>列表项</li>；
+<dl>自定义列表</dl>；<dt>列表项</dt>；<dd>项的描述</dd>；
+<ul>的style属性中list-style-type的值控制用什么符号开头：
+    默认disc圆点，circle圆圈，square正方形；
+<ol>的type属性控制用什么做序号：
+    默认阿拉伯数字，A/a 大/小写字母，I/i 大/小写罗马数字；
+
+********图片*************************************
+<img src="链接" />插入图片
+    src=source缩写，嵌入文中，一般img、script、iframe；
+    属性width="x"宽，height="x"高，border="x"边框厚；
+    alt="对图片的描述文字"鼠标移过去会跳出来；
+    usemap="#map名"附加图像地图，用来点击并跳转
+<map name="map名"><area 各属性></map>
+<area 属性>只能嵌套在<map>内部，属性如下：
+    shape="形状"、coords="形状参数"、alt、href、target；
+    矩rect-Xl,Yu,Xr,Yd 圆circle-X,Y,R 多边poly-X1,Y1,X2,Y2....
+
+****样式CSS：需要系统的看*****************************
+内联样式：在个别元素里用<p style="x:y;"></p>
+    style中，背景色background-color，字色color，字体font-family:arial，字号font-size:20px，对齐方式text-align
+在<head>中定义整体：
+    <style>body{x:y;}h1{x:y}p{x:y}</style>
+
+**********表格********************************************
+<table border="1"或"">表</table>值为1有边框，为空无边框；
+<th>表头</th>；<tr>行</tr>；<td>表单元<td>；
+<caption>表大标题</caption>；
+<colgroup>设置各列的效果</colgroup>
+<col span="要设置几列" style="效果" />
+表格可以用来布局，通过设置宽高等，不如<div>
+
+***********表单**********************************************
+<form>
+Account: <input type="text" name="act"><br />
+Password: <input type="password" name="pwd">
+单选按钮选值: <input type="radio" name="dx" value="xx">
+复选可多个值: <input type="checkbox" name="fx" value="y1"> 
+另个复选选项: <input type="checkbox" name="fx" value="y2">
+</form>
+（已完工）提交表单：
+<div>
+<form action="https://www.baidu.com/s?">
+    <input type="text" name="word" tabindex="1" autocomplete="off" style="width:600px;height:30px;font-size:20px" autofocus/>
+    <input type="submit" value="百度一下" style="width:100px;height:30px;font-size:20px">
+</form>
+<form action="https://www.bing.com/search?">
+    <input type="text" name="q" tabindex="2" autocomplete="off" style="width:600px;height:30px;font-size:20px">
+    <input type="submit" value="必应一下" style="width:100px;height:30px;font-size:20px">
+</form>
+<form action="https://www.google.com.hk/search?">
+    <input type="text" name="q" tabindex="3" autocomplete="off" style="width:600px;height:30px;font-size:20px">
+    <input type="submit" value="谷歌一下" style="width:100px;height:30px;font-size:20px">
+</form>
+</div>
+下拉列表：cat3为默认项
+<form action="">
+<select name="cat">
+<option value="cat1">cat1</option>
+<option value="cat2">cat2</option>
+<option value="cat3" selected>cat3</option>
+</select>
+</form>
+按钮：
+<button type="button" onclick="alert('弹出语')">按钮名</button>;
+
+**********框架*****************************************
+<iframe src="url" 其他属性>不支持iframe时显示的文本</iframe>
+
+**********脚本**********************************************
+<p id="xx">Hi!</p>
+<script>	此处举个例子，点击后Hi!变成Hello!
+function myFunc(){
+    document.getElementById("xx").innerHTML="Hello!";
+}
+</script>
+<button type="button" onclick="myFunc()">按钮名</button>
+<noscript>不支持脚本时显示的文本</noscript>
+
+*****没啥用的标签**************************************
+<blockquote cite="链接">文</blockquote>长引用整体缩进
+<q>文</q>短引用，自动加引号
+<cite>文</cite>定义作品的标题，会自动斜体
+<dfn>文</dfn>定义项目
+<bdo dir="rtl"或"ltr">文字</bdo>左右走向
+<address>放联系信息</address>
+<code>计算机代码</code>
+<kbd>键盘码</kbd>
+<samp>代码样本</samp>
+<var>变量</var>
+设置属性：挑了可能有用的
+accesskey：访问元素的快捷键
+class：类名
+contenteditable：元素内容是否可编辑
+contentmenu：指定上下文菜单
+data-*：存储自定义数据
+dir：文本方向
+hidden：隐藏元素
+lang：设置元素中内容的语言代码
+
+关于相对路径：./ 是当前目录(可省略)，../ 上一目录，	../../上上目录依次类推，/ 根目录
+实体字符：不能直接使用的符号
+  不间断空格&nbsp;或&#160    小于号&lt;    大于号&gt;
+  &号&amp;    引号&quot;     撇号&apos;
+

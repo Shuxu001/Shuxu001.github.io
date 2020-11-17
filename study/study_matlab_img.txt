@@ -1,0 +1,39 @@
+关于gca的properties常用的
+-Font：
+FontName = fontname | 'FixedWidth'
+FontSize = value
+FontAngle = *'normal' | 'italic'
+-Ticks：
+XTick, YTick, ZTick = vector of increasing values
+TickDir = *'in' | 'out' | 'both' 
+TickLength = [2d_value 3d_value]
+XColor, YColor, ZColor = color_name | short_name | '#RRGGBB' | [R G B]intensities
+XDir, YDir, ZDir = *'normal' | 'reverse' 坐标轴数增大/减小的顺序
+-Grids：
+XGrid, YGrid, ZGrid = *'off' | 'on'
+GridLineStyle = *'-' | '--' | '-.' | 'none'
+GridColor = 同上
+-Labels：
+Title, XLabel, YLabel, ZLabel
+-Box Styling：
+Color = 同上
+LineWidth = value
+
+
+
+
+
+
+imhist
+histeq
+colorbar放对比卡
+imdistline放一条测像素距离的线
+imfindcircles(pic,radius,)
+imrotate(I,angle,'nearest/bilinear/bicubic','loose/crop')
+imshow的[]和RA
+imref2d
+imshowpair(A,RA,B,RB,'falsecolor伪彩/blend透明/checkerboard格子/diff差异/motage并排')
+imbinarize(I,'global用graythresh函数计算全局阈值'/'adaptive局部自适应阈值'/T自定义阈值,name,value)
+	'ForegroundPolarity'='bright找白字/dark找黑字'、'Sensitivity'=0~1默认0.5越大越多值视为前景
+CC=bwconncomp(BW)和L=labelmatrix(CC)：前者用来找0-1二值图像的连通区域，后者用来给每个连通区域赋值(1,2,3,4...)
+label2gray(L,cmap,zerocolor,order='noshuffle依次/shuffle伪随机')，colormap='...'
