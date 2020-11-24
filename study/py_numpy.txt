@@ -1,0 +1,87 @@
+﻿【占位符】预先创建数组
+np.linspace(start,end,nums)
+np.zeros( (d1,d2,...) ) d1*d2*...
+->.ones(())/.empty(())
+np.eye(n) n*n的单位阵
+np.arange(n)等价np.array(range(n))
+【随机数】np.random.xxx()
+-.random( (d1,d2,...) ) 均匀[0,1)，要( )，
+-.rand(d1,d2,...)   均匀[0,1)，不要( )，
+-.randn(d1,d2,...) 正态N(0,1)，不要( )，
+-.randint(m,n,size) 整数[m,n)，无n则[0,m)，size=(d1,d2,...)默认1
+
+【元素】
+a.ndim 维数
+a.shape 维度
+a.size 元素数
+a.itemsize 一个元素的字节
+a.dtype 数据类型
+type(array)数组类型
+len(array)第0维长度
+【整形】
+-array.resize( (d1,d2,...) ) 整为d1*d2，就地修改不返回
+-array.reshape(d1,d2,...) 无()，新建返回
+-array.flatten() 新建返回降维后的向量
+【注】第0维是最外面那维，往里数字变大
+【拷贝】暂时不懂
+b=a	改b也改a，非拷贝
+b=np.copy(a) 深拷贝，a is not b，改b不改a
+b=a.copy() 深拷贝，a is not b，改b不改a
+【排序】
+array.sort(axis=i) 按第i维排序(即只改第i维的序号)，默认imax
+np.random.shuffle(a) 打乱a（就地修改）
+np.random.permutation(a) 打乱a（新建返回）
+【增减元素】
+np.append(a,b) a和b前后连，变成一个一维数组
+np.insert(array,1,2,axis) 不懂
+np.delete(array,1,axis) 不懂
+【拼接】
+np.concatenate([a,b,c,...],axis=i) 按第i维拼
+np.vstack( (a,b,c) ) 竖拼 
+np.hstack( (a,b,c) ) 横拼
+np.dstack( (a,b,c) ) 最里面增加一维拼，向量变三维
+np.stack(   (a,b,c) ) 最外面增加一维拼，向量变二维
+【注】向量(一维矩阵)是(n,) 而(1,n)或(n,1)看成二维矩阵
+【拆开】
+np.split(a,n) 按最外维拆成n个（要能除断） 
+【矩阵变换】
+array.T 转置 或np.transpose(a) 不改
+np.linalg.inv(a) a的逆
+【比较】
+== != > >= < <=返回Bool值矩阵
+【统计】
+np.mean(a,axis=i) 对第i维求均值，之后第i维消失，只有a时全局
+->.max()/.min()/.sum()/.std()/.var()/.median()
+np.argmin(a)/np.argmax(a) 最小/大值的索引
+np.diff(a) 和前一个元素的差值
+np.cumsum(a) 到这个元素位置的和，返回向量
+np.average(a,)不会用
+np.gradient(a) a(二维)的梯度，高维不懂
+
+【数学】
+np.abs(a) 绝对值 np.fabs(a)浮点绝对值
+np.sqrt(a) 根号
+np.square(a) 平方
+np.log(a) np.log10(a) np.log2(a) e,10,2的对数
+np.ceil(a) np.floor(a) 向上/下取整
+np.rint(a) 向近取整，<=1.5取1，>1.5取2
+q1,q2=np.modf(a) q1小数q2整数，-2.5变-0.5和-2
+np.exp(a) e的a次
+np.sign(a) a的符号
+np.mod(a,b) a/b取余，-5/3余1
+np.clip(a,m,n) a中小于m的变m，大于n的变n
+【乘和点乘】dot和*
+
+【切片】
+序号：	 0  1  2   3   4
+长度=5	-5 -4 -3 -2  -1
+用中括号[ ]，假设a.shape==(4,3,2)
+a[1]表示第0维取序号1，等价于a[1,:,:]
+a[2,1]表示第0维取序2，第1维取序1，等价于a[2,1,:]
+a[m:n:t]表示从 序m 到 序n的前一个，步长t默认1
+-t>0：取m~n-1，m默认0，n默认len(a)
+-t<0：取m~n+1，m默认-1，n默认-len(a)-1
+-“::-1”为反向，从末到头，即得逆序
+布尔索引：用等shape的Bool阵b，来a[b]，比如a[a>4]
+-返回的是一个True对应值按先后排的向量
+
