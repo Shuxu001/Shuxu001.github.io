@@ -288,7 +288,7 @@ q2.next=&q3;
 q3.next=NULL;//尾结点
 【注】指针用“->”，变量用“.”
 
-创建动态链表，需要pCur+pNew套娃
+【创建动态链表】 需要pCur+pNew套娃
 1.定义一个头结点：
 head = (AAA*)malloc(sizeof(AAA));
 head->next=NULL;
@@ -308,6 +308,39 @@ p1->next=p2->next; free(p2);p2=NULL;
 5.清空结点，head也要free，从前往后挨个free,
 while(head!=NULL){ //一共1+n个结点
 tmp=head->next; free(head); head=tmp; }
+
+【结点内容交换】区别于结点交换
+数据域和指针域要分别考虑（若单数据则不用）
+因为不知道数据个数，两种方法：
+1. 先全部交换再单独改指针域
+tmp=*p1; *p1=*p2; *p2=tmp;
+tmp.next=p1->next;
+p1->next=p2->next;
+p2->next=tmp.next;
+2. 把所有数据域定义成另一个结构体
+struct data={...};
+
+【结点排序】
+类比数组排序：
+for(i=0;i<n-1;i++){
+    for(j=i+1;j<n;j++)
+        if(a[i]<a[j]){ a[i]<->a[j] } }}
+在结点排序时，要head!=NULL&&head->next!=NULL
+for(p1=head->next;p1->next!=NULL;p1=p1->next){
+    for(p2=p1->next;p2!=NULL;p2=p2->next){
+        if(p1->k >p2->k){ p1<->p2 } }}
+【链表翻转】
+1. 需要三个指针p1,p2,p3
+2. 初始：p1=head->next; p2=p1->next; p3=p2->next;
+3. 让p2反指并3个p都进1，当p2!=NULL时：
+    p2->next=p1; p1=p2; p2=p3; p3=p3->next;
+4. 当p2为NULL前最后一个时，p3指向NULL
+    p2反指后，完成除第1个外(不算head)全部反指
+    然后进1，此时p1指向最后一个，p2指向NULL
+5. 处理第1个：head->next->next=NULL;
+6. 处理head：head->next=p1; 完毕
+
+
 
 
 	////////////////////////////////////
