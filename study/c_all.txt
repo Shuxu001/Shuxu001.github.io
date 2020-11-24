@@ -202,6 +202,59 @@ b * c c
 d * * *
 
 
+////////////////文件////////////////////
+【文件基本操作】
+FILE *fp=NULL;//文件指针，设备文件专门定义
+如：stdin"键盘"文件，stdout和stderr"屏幕"文件
+fp=fopen("文件名","操作");
+r：只读，文件要已存在
+w：只写，会删了原来内容
+a：追加，只能在文件末尾追加
+rb,wb,ab：操作二进制文件
+r+：读写，要已经存在
+w+：读写，删了原来的
+路径字符串换行写：行末加反斜杠
+char *p = "asdf"\
+	"sadasd";
+vs的相对路径：
+-编译代码时是相对于代码
+-在debug的文件夹里直接运行时是相对于那个exe
+缓冲区 fflush(fp)
+写入文件时间点：程序结束/文件关闭/刷新缓冲区/缓冲区满了
+
+# feof(fp);//判断，结束（到EOF）时候=0
+# fputc://返回：成功写入的字符(ascii码)
+int x=fputc(ch,fp); 
+fputc(ch,stdout); //打印到屏幕
+perror("提示内容");//打印错误信息，只能放内容
+# fgetc:
+char ch=fgetc(fp); //结束符EOF=-1
+fgetc(stdin);//从键盘读入
+
+# fputs://返回值：成功是0失败非0
+int x=fputs(buf,fp); 
+# fgets: //返回：成功读取的内容，读入\n作为换行的标识 
+char *p=fgets(buf,sizeof(buf),fp);
+//超过最大值的丢了，不到就按实际，最后自动加'\0'
+
+# fwrite：//返回：成功写入的块数目
+//s是待写内容的首地址(指针或结构体数组的变量名),
+//Stu是结构体(一个块)，参数是一个块的大小，共3个块
+int x=fwrite(s,sizeof(Stu),3,fp);
+# fread：返回：成功读到的块数目
+int x=fread(s,sizeof(Stu),3,fp);
+
+# fprintf：//按格式化写入
+fprintf(fp,"asd%d\n",100);
+# fscanf：//读进来那个数字放地址&a处，也就是给a
+fread(fp,"asd%d\n",&a);
+
+【随机位置】
+fseek(fp,offset,whence);//光标在whence+offset
+//whence:SEEK_SET开头、SEEK_END结尾、SEEK_CUR当前
+ftell(fp);//返回光标当前位置，long int型
+rewind(fp);//回到开头
+
 
 
 
