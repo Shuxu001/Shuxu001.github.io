@@ -212,7 +212,7 @@ w：只写，会删了原来内容
 a：追加，只能在文件末尾追加
 rb,wb,ab：操作二进制文件
 r+：读写，要已经存在
-w+：读写，删了原来的
+w+：读写，删了原来的，新建
 路径字符串换行写：行末加反斜杠
 char *p = "asdf"\
 	"sadasd";
@@ -222,38 +222,93 @@ vs的相对路径：
 缓冲区 fflush(fp)
 写入文件时间点：程序结束/文件关闭/刷新缓冲区/缓冲区满了
 
-# feof(fp);//判断，结束（到EOF）时候=0
-# fputc://返回：成功写入的字符(ascii码)
+# feof(fp); //判断，结束（到EOF）时候=0
+# fputc //返回：成功写入的字符(ascii码)
 int x=fputc(ch,fp); 
 fputc(ch,stdout); //打印到屏幕
 perror("提示内容");//打印错误信息，只能放内容
-# fgetc:
+# fgetc //返回：读到的字符
 char ch=fgetc(fp); //结束符EOF=-1
+//用“ch!=EOF”判断读完没
 fgetc(stdin);//从键盘读入
 
-# fputs://返回值：成功是0失败非0
+# fputs //返回：成功是0失败非0
 int x=fputs(buf,fp); 
-# fgets: //返回：成功读取的内容，读入\n作为换行的标识 
-char *p=fgets(buf,sizeof(buf),fp);
-//超过最大值的丢了，不到就按实际，最后自动加'\0'
+# fgets //返回：成功读取的内容； 
+char *p=fgets(buf,max_size,fp);
+//用“p!=NULL”判断读完与否
+//读满max_size-1个字符或读到\n，完成一次读入
 
-# fwrite：//返回：成功写入的块数目
-//s是待写内容的首地址(指针或结构体数组的变量名),
-//Stu是结构体(一个块)，参数是一个块的大小，共3个块
-int x=fwrite(s,sizeof(Stu),3,fp);
-# fread：返回：成功读到的块数目
-int x=fread(s,sizeof(Stu),3,fp);
+# fwrite //返回：成功写入的块数目
+//写入p(指针)为首地址的内存，n个块，每块大小是size(字节)
+//如：fwrite(s,sizeof(MyStruct),3,fp);
+int x=fwrite(p,size,n,fp);
+# fread //返回：成功读到的块数目
+int x=fread(p,size,n,fp);
 
 # fprintf：//按格式化写入
 fprintf(fp,"asd%d\n",100);
 # fscanf：//读进来那个数字放地址&a处，也就是给a
-fread(fp,"asd%d\n",&a);
+fscanf(fp,"asd%d\n",&a);	
 
 【随机位置】
 fseek(fp,offset,whence);//光标在whence+offset
 //whence:SEEK_SET开头、SEEK_END结尾、SEEK_CUR当前
-ftell(fp);//返回光标当前位置，long int型
-rewind(fp);//回到开头
+ftell(fp);//返回光标到文件开头的大小，即当前位置，long int型
+rewind(fp);//光标回到文件开头
+
+//////////////////链表//////////////
+数据域，指针域
+动态/静态链表，带头/不带头链表，单向/双向/循环链表
+带头双向链表，头节点有指出去没有指回来
+
+结构体可以嵌套：
+另一个结构体的普通变量、指针变量
+本结构体的指针变量（∵32位总是4字节）
+但不可以：
+本结构体的普通变量（∵不能确定结构体的内存大小）
+
+链表定义：
+typedef struct Aaa{
+    int a; char b[10];
+    struct Abc* next;
+    struct Abc* last;
+}AAA;
+AAA q1={111,'q1',NULL};
+AAA q2={222,'q2',NULL};
+AAA q3={333,'q3',NULL};
+q1.next=&q2;
+q2.next=&q3;
+q3.next=NULL;//尾结点
+【注】指针用“->”，变量用“.”
+
+创建动态链表，需要pCur+pNew套娃
+1.定义一个头结点：
+head = (AAA*)malloc(sizeof(AAA));
+head->next=NULL;
+2.定义结点
+AAA* pCur = head;
+AAA* pNew = NULL;
+while(条件){
+      pNew=(AAA*)malloc(sizeof(AAA));
+      pCur->next=pNew;
+      pNew->next=NULL;
+      pCur=pCur->next;   //或pCur=pNew;
+}
+3.插入结点，p1后加p2：
+p2->next=p1->next; p1->next=p2;
+4.删除结点，删p1后面的p2：
+p1->next=p2->next; free(p2);p2=NULL;
+5.清空结点，head也要free，从前往后挨个free,
+while(head!=NULL){ //一共1+n个结点
+tmp=head->next; free(head); head=tmp; }
+
+
+////////////附////////////
+cmd里清屏命令：cls
+C语言调用：system("cls");
+cmd退出：exit(0)
+C语言调用：exit(0);
 
 
 
