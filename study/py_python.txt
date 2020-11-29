@@ -2,6 +2,9 @@ NPP_SAVE
 cmd /k D:\python3\python3.exe "$(FULL_CURRENT_PATH)" & ECHO. & PAUSE & EXIT
 NPP_CONSOLE 0
 
+conda create -n 环境名字 pip python=3.6
+conda activate 环境名字
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple 库
 
 import module
 //用b=a赋值字典虽然a is b，这是指a修改时b会改，但是a不再是字典时，b不变
