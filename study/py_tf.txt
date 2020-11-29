@@ -1,0 +1,29 @@
+tf的矩阵，维数axis=0,1,2...是从外向里，
+rgb图，[行, 列, [r, g, b] ]，一堆图：[图1, 图2, 图3 ...]
+
+二维矩阵是由行向量构成，一般是axis=1的跨列操作是保留行数
+softmax是把一系列值映射到0~1，并且求和=1，看成概率分布
+reduce_mean的reduction_indices=[1]表示在维1上操作
+对哪一维操作，计算完后外面的括号就去掉，相当于降维
+sess = tf.InteractiveSession()可以免去指定sess，如下
+sess = tf.Session:
+    with sess as default:     或	with sess.as_default():
+        操作			    操作
+或with tf.Session() as sess:
+       操作
+
+conda create -n mlcc pip python=3.6
+conda activate mlcc
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow-gpu==1.12.0
+
+a是np.array，有：a.shape，a.size，a.ndim，
+np.array的shape情况：
+(3,1)为3行1列的矩阵[ [1],[2],[3] ]
+(1,3)为1行3列的矩阵[ [1,2,3] ]
+(3, )为向量[ 1,2,3 ]，看情况作为行或者列
+对np.dot情况：
+向量在前则行向量，向量在后则列向量
+(1,3)和(3,1)得到1行1列的矩阵[ [35] ]
+
+tensor.op.name
+tensor.get_shape().as_list()
