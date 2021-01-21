@@ -1,20 +1,26 @@
 import requests
 url = "https://www.baidu.com"
-
-print(response)
-q_data={}   # 提供参数
-
 myheaders = {"User-Agent":"",
-    "Referer":"",        
-    "Cookie":"",
+    "Referer":"",
+    "Cookie":"",  
     }
-# 还可带些header的参数，为了模拟浏览器
-# 处理cookie相关的请求，也可用另起一个字典在get里让cookies=它
-
 response = requests.get(url,headers=myheaders)
+html_str = response.content.decode() # 可以加入"gbk"
+element_tree = etree.HTML(html_str)
+
+fname = "" # 本地文件位置
+element_tree = etree.parse(fname,etree.HTMLParser())
+
+sth = element_tree.xpath("...") # 得到一个list，内容可当str处理
+/tagname 顺序查找，//tagname 所有该标签，
+//tagname[@xxx="yyy"] 所有xxx属性是yyy的该名字标签
+//tagname/@xxx 所有该名字标签的xxx属性(包含yyy的list)
+/tagname/text()  该名字标签下的所有文本内容(不含属性)
+
+
+q_data={} # 其他要提供的部分参数
 # response = requests.post(url,data=q_data,headers=myheaders)
-
-
+# 处理cookie相关的请求，也可用另起一个字典在get里让cookies=它
 
 # 获取网页源码的方式，两个方法
 response.content    # 中文是/x的二进制码
@@ -69,9 +75,9 @@ myheaders = {}
 post_url = "" # 输入账密的url地址
 post_data = {'账号':"","password":""}
 mysession.post(post_url,data=post_data,headers=myheaders,)
-
 url = "" # 要请求的url地址
 response  = mysession.get(url,headers=myheaders)
+
 
 #########################################
 ### json ################################
@@ -87,22 +93,23 @@ dict_str = json.dumps(dict_ret,ensure_ascii=False,indent=2)
 #################################################
 #################################################
 
-html字符串，有两种解析方式：
+html_str这个字符串，有两种解析方式：
 1. 用lxml的etree.HTML，变成可用xpath语法定位的lxml.etree._Element类
 2. 用bs4的BeautifulSoup，变成可用find&正则查找的bs4.element.Tag类
 
 ### xpath和lxml ##################################
-# 用/按顺序，//任意节点开始，@跟标签属性有关(筛选[]或取值)，/text()获取文本
+# 用/按顺序，//所有这种节点开始，@跟标签属性有关(筛选[]或取值)，/text()获取文本
 # 模块：lxml
 from lxml import etree
-element = etree.HTML("html字符串") # 输入的是requests.get()到的
-element.xpath("xpath语法")   #定位
+html_str = response.content.decode() # response是requests.get()到的
+element_tree = etree.HTML("html_str") 
+element_tree.xpath("xpath语法")   #定位
 
 ### bs4 ##################################
 from bs4 import BeautifulSoup
 Tag对象：带头尾的标签<title>xxx</title> 
 BeautifulSoup对象：整个html，也可当作Tag对象；
--用法：soup=BeautifulSoup(html,'html.parser')，html是一整个网页；
+-用法：soup=BeautifulSoup(html_str , 'html.parser')，html是一整个网页；
 -然后可以soup.html.head.title或直接soup.title往下定位，全程都是首个；
 获取标签名称：Tag1.name，得到如 'title'
 获取标签属性：Tag1.attrs返回一字典，键为属性名，值为含属性内容的列表;

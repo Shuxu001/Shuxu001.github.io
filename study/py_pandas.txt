@@ -2,9 +2,9 @@
 【输入输出】
 filepath = '' # 路径字符串
 # 读txt：header是标题行(列名行)，names指定列名
-df = pd.read_csv(filepath,sep='\t',header=False,names=['a','b'])
+df = pd.read_csv(filepath,sep='\t',header=None,names=['a','b'])
 # 写txt：header是标题行(列名行)，index是行标
-df.to_csv(filepath,sep='\t',header=False,index=False)
+df.to_csv(filepath,,header=False,index=False)
 # 读excel：skiprows=3可以跳过3行
 df = pd.read_excel(filepath,skiprows=3)
 # 写excel:
@@ -36,10 +36,12 @@ axis=1：单列操作即某列，聚合操作时指跨列，实际是每行一�
 df.mean(axis=0)：指跨行取均值(对每列求均值)，保留columns标识
 
 df.set_index('列1',drop=True) # 定列1为index，为False则数据中保留列1
-df.reindex(columns=new_col_list) # 用新列序重排,新项填NaN,缺项丢掉
+df.reindex(columns=new_col_list,index=new_idx_list) 
+# 按新的列名/索引名的顺序重排,新列填NaN,缺列丢掉,新建返回不修改df
 df['c']==0 # 输出一个Series，值为True/False，用于行筛选
 s.drop_duplicates() # 删掉重复的行，df.drop_duplicates()没搞懂?
 s1+s2 # 数据自动对齐，寻找index一样的行，然后执行+
+
 
 # 增加列：
 1. 直接赋值：
@@ -263,6 +265,10 @@ pd.to_datetime(date_list)
 # 把一个DataFrame里的日期Series变成DatetimeIndex格式
 data_series = pd.Series(date_list,name='dt')
 pd.to_datetime(data_series) 
+
+#时间加减
+from datetime import timedelta
+df["time"]=df["time"]+timedelta(days=1)
 
 # 更好的查询功能：df.loc['2020-01':'2020-07'] 可以只有年(月)，自动挑所有的(月)日
 df = pd.DataFrame({'dt':pd.to_datetime(date_list),'vl':range(12)})
