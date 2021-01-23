@@ -1,0 +1,118 @@
+【string】
+前注："abcdefg"这种是字符串常量char*
+==构造==
+string s1("hello");
+string s2(s1);
+string s3(10,'a');//10个a，限单一字符
+==赋值==
+s1.assign("abcdefg");
+s1.assign("abcdefg",3);//char*前3个字符，不可string！！
+s1.assign(s2);
+s1.assign(3,'a');//3个a，限单一字符
+==拼接==
+s1 += "asd";
+s1 += s2;
+s1.append(s2);
+s1.append("abcdefg",4);//char*的前4个
+s1.append(s2,4);//string的序4到最后，非前4个！！
+s1.append(s2,3,4);//string的序3开始取4个
+s1.append(s2,0,4);//string的前4个
+==查找==
+s1.find("abc"/s2,3);//从序3开始char*/string首次出现的位置
+s1.find("abc",3,2);//char*前2个字符在序3起首现位置，无string！
+s1.rfind("abc",n-3);//从序n-4往左"abc"第1次出现的位置
+其他略，反正就从右往左找
+==替换==
+s1.replace(3,5,"abc"/s2);//s1序3开始5个字符换成char*/string
+-替换进去的长度无所谓，比如5个可以换成3个或者7个
+==比较==
+s1.compare("asdf"/s2);//s1同char*/string比较，依据ascii
+==读写单字符==
+读：s1[2]、s1.at(2)
+写：s1[2]='x'、s1.at(2)='x'
+==插入==
+s1.insert(3,"asd"/s2);//在序3插入char*/string
+==删除==
+s1.erase(4,3);//序4开始删除3个
+==子串==
+s1=s2.substr(2,4);//序2开始4个字符
+
+【vector】
+类似数组，但是动态扩展，单端数组，
+动态扩展：找个更大空间把原来的拷贝过去再释放原空间，而不后接
+遍历和定位只能用迭代器，也就是iterator=a.begin()，
+简称it，表示位置，只读迭代器：const_iterator
+begin()左端，end()右+1，rbegin()右，rend()左-1，因为前闭后开
+==构造和赋值==
+vector<int> v1(3,4);//3个4
+v1=vector<int>( it1 , it2 );//总是前闭后开
+v1.assign( it1 , it2 );
+v1.assign(4,5);//4个5
+==容量和大小==
+v1.empty();//空1，非空0
+v1.size();//大小(元素个数)，大小<=容量
+v1.capacity;//容量，当前物理内存有多大，一般会预留空间
+v1.resize(5);//把大小弄成5，长则截断，短则填充(int默认0)
+==插入和删除==
+v1.push_back(1);//尾插
+v1.pop_back();//尾删
+v1.insert( it , 100 );//在it位置插入100
+v1.insert( it , 3 , 10 );//在it位置插入3个10
+v1.erase( it );//删除it位置的元素
+v1.erase( it1 , it2 );//删除it1到it2的元素，前闭后开
+v1.clear();//清空
+==存取==
+v1.front();//首个
+v1.back();//末个
+v1.at(4);//第4个
+v1[4];//第4个
+==互换==
+v1.swap(v2);
+用互换收缩空间，假设v1的容量是100，大小是3，可以：
+vector<int>(v1).swap(v);//前者是一个匿名对象，容量跟大小相近
+==预留空间==
+vector<int> v1; v1.reserve(100);//不可访问，用来减少开辟次数
+==遍历==
+1. for( vector<int>::iterator it=v.begin() ; it!=v.end() ; it++){ }
+2. for_each( v.begin() , v.end() , func );//第3个是回调函数
+==排序==
+只要是能随机访问的容器都可以sort，包括deque
+#include<algorithm>
+sort(it1,it2);//默认升序
+#include<functional>
+greater<int> g;//自带的一个函数对象
+sort(it1,it2,g);//第3个是函数对象，实现降序
+
+【deque】
+双端数组，头部操作比vector方便，也能随机访问，
+逻辑连续，物理不连续，访问速度慢于vector
+==构造和赋值==
+deque<int> d1(3,10); //3个10
+deque<int> d1( it1 , it2 ); //拿[it1,it2)的元素
+deque<int> d1(d2);//拷贝
+d1.assign( it1 , it2 );//[it1,it2)
+d1.assign(3,10);//3个10
+==大小==
+d1.empty();//空1，非空0
+d1.size();//d1的大小，没有容量的说法
+d1.resize(5);//多删，少补默认值，int是0
+d1.resize(5,1);//设定填充值1
+==插入和删除==
+push_front()，push_back()，pop_front()，pop_back()
+d1.insert(it,10); //在位置it插入10
+d1.insert(it,2,10); //在位置it插入2个10
+d1.insert(it1,it2,it3);//在位置it1插入[it2,it3)的元素，it2和it3要同个东西
+d1.erase(it1,it2);//删除[it1,it2)的元素，返回下个元素的it
+d1.erase(it);//删除位置it的元素，返回下个元素的位置
+d1.clear();//清空
+==存取==
+d1.front();//首个
+d1.back();//末个
+d1.at(4);//第4个
+d1[4];//第4个
+
+
+
+
+
+
