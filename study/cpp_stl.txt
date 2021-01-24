@@ -44,28 +44,28 @@ s1=s2.substr(2,4);//序2开始4个字符
 简称it，表示位置，只读迭代器：const_iterator
 begin()左端，end()右+1，rbegin()右，rend()左-1，因为前闭后开
 ==构造和赋值==
-vector<int> v1(3,4);//3个4
+vector<int> v1(n,elem);  //n个elem
 v1=vector<int>( it1 , it2 );//总是前闭后开
 v1.assign( it1 , it2 );
-v1.assign(4,5);//4个5
+v1.assign(n,elem);  //n个elem
 ==容量和大小==
 v1.empty();//空1，非空0
 v1.size();//大小(元素个数)，大小<=容量
 v1.capacity;//容量，当前物理内存有多大，一般会预留空间
-v1.resize(5);//把大小弄成5，长则截断，短则填充(int默认0)
+v1.resize(n);//把大小弄成n，长则截断，短则填充(int默认0)
 ==插入和删除==
 v1.push_back(1);//尾插
 v1.pop_back();//尾删
-v1.insert( it , 100 );//在it位置插入100
-v1.insert( it , 3 , 10 );//在it位置插入3个10
+v1.insert( it , elem );//在it位置插入elem
+v1.insert( it , n , elem );//在it位置插入n个elem
 v1.erase( it );//删除it位置的元素
-v1.erase( it1 , it2 );//删除it1到it2的元素，前闭后开
+v1.erase( it1 , it2 );//删除[it1,it2)的元素
 v1.clear();//清空
 ==存取==
 v1.front();//首个
 v1.back();//末个
-v1.at(4);//第4个
-v1[4];//第4个
+v1.at(k);//第k个
+v1[k];//第k个
 ==互换==
 v1.swap(v2);
 用互换收缩空间，假设v1的容量是100，大小是3，可以：
@@ -78,41 +78,120 @@ vector<int> v1; v1.reserve(100);//不可访问，用来减少开辟次数
 ==排序==
 只要是能随机访问的容器都可以sort，包括deque
 #include<algorithm>
-sort(it1,it2);//默认升序
+sort(it1,it2);//默认升序，排序[it1,it2)这一段，其余不变
 #include<functional>
 greater<int> g;//自带的一个函数对象
-sort(it1,it2,g);//第3个是函数对象，实现降序
+sort(it1,it2,g);//第3个是函数对象，实现降序，也可匿名对象
 
 【deque】
 双端数组，头部操作比vector方便，也能随机访问，
 逻辑连续，物理不连续，访问速度慢于vector
 ==构造和赋值==
-deque<int> d1(3,10); //3个10
+deque<int> d1n,elem);  //n个elem
 deque<int> d1( it1 , it2 ); //拿[it1,it2)的元素
 deque<int> d1(d2);//拷贝
 d1.assign( it1 , it2 );//[it1,it2)
-d1.assign(3,10);//3个10
+d1.assign(n,elem);  //n个elem
 ==大小==
-d1.empty();//空1，非空0
-d1.size();//d1的大小，没有容量的说法
-d1.resize(5);//多删，少补默认值，int是0
-d1.resize(5,1);//设定填充值1
+d1.empty();  //空1，非空0
+d1.size();  //d1的大小，没有容量的说法
+d1.resize(n);  //多则删，少则补默认值，int是0
+d1.resize(n,elem);  //设定填充值elem
 ==插入和删除==
 push_front()，push_back()，pop_front()，pop_back()
-d1.insert(it,10); //在位置it插入10
-d1.insert(it,2,10); //在位置it插入2个10
-d1.insert(it1,it2,it3);//在位置it1插入[it2,it3)的元素，it2和it3要同个东西
+d1.insert(it,elem); //在位置it插入elem
+d1.insert(it,n,elem); //在位置it插入,个1elem
+d1.insert(it,it1,it2);//在位置it插入[it1,it2)的元素，it1和it2要同目标
 d1.erase(it1,it2);//删除[it1,it2)的元素，返回下个元素的it
 d1.erase(it);//删除位置it的元素，返回下个元素的位置
 d1.clear();//清空
 ==存取==
 d1.front();//首个
 d1.back();//末个
-d1.at(4);//第4个
-d1[4];//第4个
+d1.at(k);//第k个
+d1[k];//第k个
 
+【stack和queue】
+都不能遍历
+栈：push(i)入、pop()出、top()顶、empty()空1、size()大小
+队列：push(i)入、pop()出、front()首、back()末、empty()、size()
 
+【list】
+逻辑连续、物理不连续、双向循环链表、双向迭代器
+遍历速度慢、占用空间大、不能随机读取it+3(只能.next()或it++)
+修改链表不会影响原来生成的迭代器iterator
+==构造和赋值==
+list<int> l1( it1 , it2 ); //前闭后开
+list<int> l1(n,elem);  //n个elem
+l1.assign( it1 , it2 );
+l1.assign(n,elem);  //n个elem
+==大小==
+l1.empty(); 
+l1.size();
+l1.resize(n);//调整成n个，填充默认值
+l1.resize(n,elem);//调整成n个，填充elem
+==插入和删除==
+front()首个元素、back()尾个元素
+push_back(i)、push_front(i)、pop_back()、pop_front()
+l1.insert(it,elem);//在it位置插入元素elem，返回新数据的位置
+l1.insert(it,elem);//在it位置插入n个元素elem，无返回值
+l1.insert(it,it1,it2);//在位置it1插入[it1,it2)的元素
+l1.clear();//清空
+l1.erase(it);//删除位置it的元素
+l1.erase(it1,it2);//前闭后开，删除元素
+l1.remove(elem);//删除所有值=elem的元素
+==反转和排序==
+l1.reverse();//反转
+l1.sort();//升序，不能用algorithm中的sort(it1,it2)
+l1.sort( greater<int>() );//降序，匿名函数对象
+l1.sort( mycmpA );//对类A自定义排序，普通bool函数mycmpA()
 
+【set】
+集合，插入元素时自动排序，关联式容器，底层二叉树
+set插入重复元素无效，multiset可以
+构造：默认和拷贝
+赋值：s1=s2;
+空否：s1.empty();
+大小：s1.size();  //不能重新指定
+交换：s1.swap(s2);
+插入：s1.insert(elem);  //只有这一种方法
+清空：s1.clear()
+删除：s1.erase(it); s1.erase(it1,it2); s1.erase(elem);
+查找：s1.find(elem);//返回找到的位置，无则s1.end()
+计数：s1.count(elem);//返回个数，set是0或1，multiset是自然数
+指定插入元素时的排序规则：
+set<A,MycmpA> s;
+类A被排序；MycmpA是重载()的bool函数对象类名，不能是函数名或对象
+class MycmpA{
+public:
+    bool operator()(const A& a1, const A& a2) const {
+        return a1.q > a2.q;
+    }
+};
 
+【pair】
+对组，用来成对的返回数据
+pair<string,int> p1;//前者是string，后者是int
+前者 p1.first，后者 p1.second，俩成员变量
+p1 = make_pair("asd",123); //用make_pair创建对子
+p1 = pair<string,int>("asd",123); //用匿名对子
+【map】
+类似py的字典，first是键，second是值，
+关联式容器，底层二叉树，插入时自动排序
+map插入重复键无效，重复值可以；multimap可以重复键
+构造：map<string,int> m1; //分别是键和值的数据类型
+空否：m1.empty()
+大小：m1.size()
+交换：m1.swap(m2);
+插入：m1.insert(p1); //每个元素都得是pair类型
+删除：m1.erase(it); m1.erase(elem);//删位置it或键为elem的元素
+修改：m[elem]=?; //修改键为elem的值，也可用于插入和读取
+读取：it->first; (*it).second; //用->和*都可以
+查找：it=m.find(elem); //差键elem，返回位置给it
+计数：m1.count(elem); //统计键为elem的个数，map只能0或1
+multimap：键重复，值任意，可以键值完全一样，算2个元素
+自定义排序：
+map<string,int,Mycmp> m;//前两个类名跟前面一样
+第3个类名也是重载()的bool返回值函数对象类的类名，和set一样
 
 
