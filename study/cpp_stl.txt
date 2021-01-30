@@ -17,7 +17,7 @@ s1.append("abcdefg",4);//char*的前4个
 s1.append(s2,4);//string的序4到最后，非前4个！！
 s1.append(s2,3,4);//string的序3开始取4个
 s1.append(s2,0,4);//string的前4个
-==查找==
+==查找==没找到返回-1
 s1.find("abc"/s2,3);//从序3开始char*/string首次出现的位置
 s1.find("abc",3,2);//char*前2个字符在序3起首现位置，无string！
 s1.rfind("abc",n-3);//从序n-4往左"abc"第1次出现的位置
@@ -149,6 +149,7 @@ l1.sort( mycmpA );//对类A自定义排序，普通bool函数mycmpA()
 【set】
 集合，插入元素时自动排序，关联式容器，底层二叉树
 set插入重复元素无效，multiset可以
+begin()首个,end()末个
 构造：默认和拷贝
 赋值：s1=s2;
 空否：s1.empty();
