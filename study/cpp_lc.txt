@@ -1,0 +1,130 @@
+vector可以：v={1,2,3};
+v.size()效率比自己计数要高
+排序+双指针
+动态规划，状态转移
+nullptr也是个东西,[]是空数组，[[]]是包含了一个空指针
+ListNode* l0 = nullptr;
+特殊的cout
+(char)8 退格，"\r" 回到行首
+
+vector<ListNode*> lists = { l0 };
+lists.empty()==False; 
+!l0==True;//因为nullptr=00000000
+
+滑动窗口：
+看东西移入前后和移出前后的状态
+unordered_map的性质：
+1. 用m[?]=??，没有的自动假如，int的初始是0
+2. 里面的顺序的加入时的顺序，值为0不是不存在
+比如m['a']--;m['a']++;之后m['a']==0(能遍历到)而非没了
+
+
+
+回溯
+类似于深度优先算法dfs或者递归
+如果用普通递归：
+  1. 画递归的树状图
+  2. 用n-1代入时的结果来计算出来n代入时的结果，注意边界0,1
+如果用回溯：
+在加入时候status=1，出来时候=0，中间就是
+
+回溯的例子1：数会重复，但每个数只能用1次，重复的看成两个数
+不能重复：输入j+1且加一个判断，不需要第1个分开来写
+for (int j = pos; j < candidates.size(); j++) {
+    if (j == pos || candidates[j] != candidates[j - 1]) {
+        now.push_back(candidates[j]);
+        if (target >= candidates[j])
+            backtrack(candidates, ans, now, target - candidates[j], j + 1);
+        now.pop_back();
+    }
+}
+
+回溯和排列组合
+组合(不考虑顺序)：排序后用pos，防止多次加入
+排列(考虑顺序)：不排序，用数组计状态或者哈希表计数
+
+在回溯时，传常量，形参比引用耗时更短，但vector什么的还是引用快
+
+组合两种回溯的代码逻辑：(已经排序)
+(速度差不多，后者内存消耗大)
+1. 用for循环和当前位置pos=i+1(我常用的)
+for(int i=pos; i<n; i++){
+    now.push_back( a[i] );
+    backtrack(ans, now, n, i+1);
+    now.pop_back();
+}
+2. 选or不选，直接传入pos+1
+if(pos<n){
+    now.push_back( a[pos] );
+    backtrack(ans, now, n, pos+1);
+    now.pop_back( a[i] );
+    backtrack(ans, now, n, pos+1);
+}
+
+
+string s="0";
+typeid(s).name()是string
+typeid(s[0]).name()是char
+typeid("0").name()是char const[2]字符串常量
+
+用vector<vector<int>> a代替 f(n-1,m)+f(n,m-1)的递归
+
+
+【Linux内核链表】
+在自定义结构体中，包含此链表结构体，数据层和驱动层分开
+这个是定义在Linux的内核里的
+它的定义：
+struct list_head {
+    struct list_head *next, *prev;
+};
+它的使用：
+struct person{
+    int age;
+    char name[10];
+    struct list_head* head;
+};
+
+//只初始化：(自己是自己的前驱和后继)(也可不用宏自己写)
+#define LIST_HEAD_INIT(name) { &(name), &(name) }
+//声明并初始化：
+#define LIST_HEAD(name) \
+    struct list_head name = LIST_HEAD_INIT(name)
+
+//插入节点：(可用此实现插到某的前或后)
+static inline void __list_add(struct list_head *new,
+        struct list_head *prev, struct list_head *next) {
+    next->prev = new;
+    new->next = next;
+    new->prev = prev;
+    prev->next = new;
+}
+
+//删除节点：(输入节点指针struct list_head *p1,*p2)
+__list_del(p1, p2);//把p1和p2之间的删了
+__list_del_entry(entry);//也是调用上面那个
+//删除完要初始化entry的next和prev为自己
+
+//获取节点：得到的是数据层首地址
+#define list_entry(ptr, type, member) \
+    container_of(ptr, type, member)
+#define container_of(ptr, type, member) ({  \
+    const typeof( ((type *)0)->member ) *__mptr = (ptr);  \
+    (type *)( (char*)__mptr - offsetof(type, member) ); })
+#define offsetof(s,m) (size_t)&(((s *)0)->)
+
+//遍历：
+//用于获取节点：
+#define list_for_each(pos, head) \
+    for (pos = (head)->next; prefetch(pos->next), pos != (head); \
+        pos = pos->next)
+//用于删除节点：
+#define list_for_each_safe(pos, n, head) \
+    for (pos = (head)->next, n = pos->next; pos != (head); \
+        pos = n, n = pos->next)
+
+使用方法：
+
+
+
+
+

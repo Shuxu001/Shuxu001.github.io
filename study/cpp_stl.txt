@@ -195,4 +195,13 @@ multimap：键重复，值任意，可以键值完全一样，算2个元素
 map<string,int,Mycmp> m;//前两个类名跟前面一样
 第3个类名也是重载()的bool返回值函数对象类的类名，和set一样
 
+【unordered_map】
+unordered_map<string,int> hash;
+方法：
+begin(),end(),
+empty(),size()
+at(key),等于hash[key]
+find(key),返回迭代器，无则end()
+insert({ket,value}),emplace({key,value})效率高
+erase(迭代器)
 

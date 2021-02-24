@@ -210,10 +210,10 @@ void main(){
 A operator+(A aa){ A temp; ... ; return temp; }
 
 几个特殊的运算符：
-1. 递增++ 成员函数实现
+1. 递增++ 成员函数实现，
 前置 A& operator++() { i++; return this; } 引用是为了先递增再操作
 后置 A operator++(int) { A temp=*this; i++; return temp; } 返回递增前的
-2. 关系==,!=,>... 全局函数实现
+2. 关系==,!=,>... 全局函数实现，若类内实现，传入的在后
 bool operator==(A a1, A a2){ ... };
 3. 赋值= 用于有堆区内存时，因为本身的=不会新开内存，在释放时会出错
 A& operator=(A aa) { (判断q空?); q=new int(*aa.q); return *this; } 
@@ -334,38 +334,3 @@ template<class T>假装换行void fun(A<T> a){...}  //实现函数
 前向迭代器：读写，向前推进
 双向迭代器：读写，向前向后
 随机访问xx：读写，跳跃访问
-
-
-【string】
-
-【vector】
-
-【deque】
-
-【stack和queue】
-
-【list】
-
-【set】
-
-【pair】
-
-【map】
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
