@@ -1,8 +1,32 @@
 html是超文本标记语言；
+
+####  CSS  ###############################
+【内联样式】
+    在个别元素里用<p style="x:y;"></p>
+【内部样式表】
+    在<head>里定义<style>标签
+    <style>p{x:y}</style>
+【外部样式表】
+    从单独文件test.css读取样式，在<head>里定义<link>
+    <link rel="stylesheet" type="text/css" href="test.css"> 
+    在test.css中的内容，是和上面<style>标签里内容一样
+【优先级】内联>id选择器>class选择器
+【注1】外部和内部看在<head>中出现的先后，后出现的用上
+【注2】当 !important 规则被应用在某样式声明时，优先级拉满
+【元素选择器】
+p{x:y} 所有p标签，设置x为y
+【class选择器】
+.abc{x:y} 所有包含属性 class="abc" 的标签
+p.center{x:y} 所有包含属性 class="abc" 的p标签
+【id选择器】
+#id1{x:y} 所有包含属性 id="id1" 的标签
+
+
+####  HTML  ###############################
+
+【前面】
 <!DOCTYPE html>声明位html5文档；
 <html></html>根元素；
-
-******head*******************************
 <head></head>
     <meta charset="utf-8">定义元数据：编码格式；也有其它；
     <title>网页标题</title>；
@@ -14,7 +38,8 @@ html是超文本标记语言；
 	stylesheet样式表，配合type=""
     <style>文</style>看后面；
 
-******主体******************************
+
+【主体】
 <body></bpdy>可见内容；
 <h1></h1>标题1~6，前后自动空行，对应字号6~1；
 <p></p>段落，自动换行，默认3号字；
@@ -34,7 +59,8 @@ html是超文本标记语言；
 <!-- 注释内容 -->注释不会显示出来；
 <nav>导航</nav>
 
-********链接***********************************
+
+【链接】
 <a href="链接" 属性>文字</a> 点文字跳转到链接，可加属性
     href=Hypertext Reference缩写，超文本引用；
     属性target="_blank"新窗口打开，"_self"当前窗口默认；
@@ -42,7 +68,9 @@ html是超文本标记语言；
     属性id="xx"创建书签，像word超链接，在href中#xx跳转；
     发邮件url用"mailto:someone@example.com"；
     属性style="x"
-********区块****************************************
+
+
+【区块】
 区块元素：<h1><p><ul><table>自动换行；
 内联元素：<b><td><a><img>不换行继续写；
 <div></div>把内部元素整合成一个块级元素；
@@ -52,7 +80,8 @@ html是超文本标记语言；
             包含框上沿是上一个普通块的下边沿。普通块看不到浮动块；
 <span></span>把内部元素整合成一个内联元素；
 
-********列表****************************************
+
+【列表】
 <ul>无序列表</ul>；<ol>有序列表</ol>；<li>列表项</li>；
 <dl>自定义列表</dl>；<dt>列表项</dt>；<dd>项的描述</dd>；
 <ul>的style属性中list-style-type的值控制用什么符号开头：
@@ -60,7 +89,7 @@ html是超文本标记语言；
 <ol>的type属性控制用什么做序号：
     默认阿拉伯数字，A/a 大/小写字母，I/i 大/小写罗马数字；
 
-********图片*************************************
+【图片】
 <img src="链接" />插入图片
     src=source缩写，嵌入文中，一般img、script、iframe；
     属性width="x"宽，height="x"高，border="x"边框厚；
@@ -71,13 +100,8 @@ html是超文本标记语言；
     shape="形状"、coords="形状参数"、alt、href、target；
     矩rect-Xl,Yu,Xr,Yd 圆circle-X,Y,R 多边poly-X1,Y1,X2,Y2....
 
-****样式CSS：需要系统的看*****************************
-内联样式：在个别元素里用<p style="x:y;"></p>
-    style中，背景色background-color，字色color，字体font-family:arial，字号font-size:20px，对齐方式text-align
-在<head>中定义整体：
-    <style>body{x:y;}h1{x:y}p{x:y}</style>
 
-**********表格********************************************
+【表格】
 <table border="1"或"">表</table>值为1有边框，为空无边框；
 <th>表头</th>；<tr>行</tr>；<td>表单元<td>；
 <caption>表大标题</caption>；
@@ -85,7 +109,8 @@ html是超文本标记语言；
 <col span="要设置几列" style="效果" />
 表格可以用来布局，通过设置宽高等，不如<div>
 
-***********表单**********************************************
+
+【表单】
 <form>
 Account: <input type="text" name="act"><br />
 Password: <input type="password" name="pwd">
@@ -94,20 +119,10 @@ Password: <input type="password" name="pwd">
 另个复选选项: <input type="checkbox" name="fx" value="y2">
 </form>
 （已完工）提交表单：
-<div>
 <form action="https://www.baidu.com/s?">
-    <input type="text" name="word" tabindex="1" autocomplete="off" style="width:600px;height:30px;font-size:20px" autofocus/>
-    <input type="submit" value="百度一下" style="width:100px;height:30px;font-size:20px">
+    <input type="text" name="word" tabindex="1" autocomplete="off"  autofocus/>
+    <input type="submit" value="百度一下" >
 </form>
-<form action="https://www.bing.com/search?">
-    <input type="text" name="q" tabindex="2" autocomplete="off" style="width:600px;height:30px;font-size:20px">
-    <input type="submit" value="必应一下" style="width:100px;height:30px;font-size:20px">
-</form>
-<form action="https://www.google.com.hk/search?">
-    <input type="text" name="q" tabindex="3" autocomplete="off" style="width:600px;height:30px;font-size:20px">
-    <input type="submit" value="谷歌一下" style="width:100px;height:30px;font-size:20px">
-</form>
-</div>
 下拉列表：cat3为默认项
 <form action="">
 <select name="cat">
@@ -119,10 +134,12 @@ Password: <input type="password" name="pwd">
 按钮：
 <button type="button" onclick="alert('弹出语')">按钮名</button>;
 
-**********框架*****************************************
+
+【框架】
 <iframe src="url" 其他属性>不支持iframe时显示的文本</iframe>
 
-**********脚本**********************************************
+
+【脚本】
 <p id="xx">Hi!</p>
 <script>	此处举个例子，点击后Hi!变成Hello!
 function myFunc(){
@@ -132,7 +149,8 @@ function myFunc(){
 <button type="button" onclick="myFunc()">按钮名</button>
 <noscript>不支持脚本时显示的文本</noscript>
 
-*****没啥用的标签**************************************
+
+【没啥用的标签】
 <blockquote cite="链接">文</blockquote>长引用整体缩进
 <q>文</q>短引用，自动加引号
 <cite>文</cite>定义作品的标题，会自动斜体
