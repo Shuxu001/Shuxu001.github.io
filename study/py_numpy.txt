@@ -1,5 +1,4 @@
 ﻿【占位符】预先创建数组
-np.full( (d1,d2,...),np.nan) 新建矩阵 
 np.linspace(start,end,nums)
 np.zeros( (d1,d2,...) ) d1*d2*...
 ->.ones(())/.empty(())
@@ -20,10 +19,9 @@ a.dtype 数据类型
 type(array)数组类型
 len(array)第0维长度
 【整形】
-a.resize( (d1,d2,...) ) 整为d1*d2，就地修改不返回
-a.reshape(d1,d2,...) 无()，新建返回
-np.reshape(a,(d1,d2,...)) 有()，新建返回
-a.flatten() 新建返回降维后的向量
+-array.resize( (d1,d2,...) ) 整为d1*d2，就地修改不返回
+-array.reshape(d1,d2,...) 无()，新建返回
+-array.flatten() 新建返回降维后的向量
 【注】第0维是最外面那维，往里数字变大
 【拷贝】暂时不懂
 b=a	改b也改a，非拷贝
@@ -61,17 +59,16 @@ np.average(a,)不会用
 np.gradient(a) a(二维)的梯度，高维不懂
 
 【数学】
-np.abs(a)         绝对值 np.fabs(a)浮点绝对值
-np.sqrt(a)        根号
-np.square(a)    平方
+np.abs(a) 绝对值 np.fabs(a)浮点绝对值
+np.sqrt(a) 根号
+np.square(a) 平方
 np.log(a) np.log10(a) np.log2(a) e,10,2的对数
 np.ceil(a) np.floor(a) 向上/下取整
-np.rint(a)         向近取整，<=1.5取1，>1.5取2
-np.around(a,k)    a取k位小数
+np.rint(a) 向近取整，<=1.5取1，>1.5取2
 q1,q2=np.modf(a) q1小数q2整数，-2.5变-0.5和-2
-np.exp(a)        e的a次
-np.sign(a)       a的符号
-np.mod(a,b)   a/b取余，-5/3余1
+np.exp(a) e的a次
+np.sign(a) a的符号
+np.mod(a,b) a/b取余，-5/3余1
 np.clip(a,m,n) a中小于m的变m，大于n的变n
 【乘和点乘】dot和*，
 【注】某维长为1矩阵的shape是(1,n)或(n,1)，向量是(n,)

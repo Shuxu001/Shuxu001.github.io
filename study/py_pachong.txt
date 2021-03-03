@@ -11,7 +11,9 @@ element_tree = etree.HTML(html_str)
 fname = "" # 本地文件位置
 element_tree = etree.parse(fname,etree.HTMLParser())
 
-sth = element_tree.xpath("...") # 得到一个list，内容可当str处理
+way="/tag1/tag2/tag3/..."
+sth = element_tree.xpath(way) # 得到一个list，内容可当str处理
+注：way里不能大写
 /tagname 顺序查找，//tagname 所有该标签，
 //tagname[@xxx="yyy"] 所有xxx属性是yyy的该名字标签
 //tagname/@xxx 所有该名字标签的xxx属性(包含yyy的list)
